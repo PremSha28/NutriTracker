@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Logged Meals</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <h1>Meal History</h1>
+  <% if (meals.length === 0) { %>
+    <p>No meals logged yet.</p>
+  <% } else { %>
+    <ul>
+      <% meals.forEach(meal => { %>
+        <li>
+          <strong><%= meal.name %></strong> —
+          Calories: <%= meal.calories %>,
+          Protein: <%= meal.protein %>g,
+          Fat: <%= meal.fat %>g,
+          Carbs: <%= meal.carbs %>g,
+          Logged: <%= meal.date.toLocaleString() %>
+        </li>
+      <% }) %>
+    </ul>
+  <% } %>
+  <a href="/">Home</a>
+</body>
+</html>
