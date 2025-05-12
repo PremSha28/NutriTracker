@@ -8,13 +8,11 @@ const { getNutritionData } = require('./nutrition');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'templates'));
 
-// MongoDB setup
 const username = process.env.MONGO_DB_USERNAME;
 const password = encodeURIComponent(process.env.MONGO_DB_PASSWORD);
 const cluster = process.env.MONGO_CLUSTER;
@@ -31,14 +29,12 @@ async function connectToDB() {
     await client.connect();
     db = client.db(dbName);
     mealsCollection = db.collection(collectionName);
-    console.log("✅ Connected to MongoDB Atlas");
   } catch (err) {
-    console.error("❌ MongoDB connection error:", err);
+    console.error("MongoDB connection error:", err);
   }
 }
 connectToDB();
 
-// Routes
 app.get('/', (req, res) => {
   res.render('index');
 });
@@ -53,7 +49,7 @@ app.post('/log', async (req, res) => {
     const data = await getNutritionData(userInput);
 
     if (!data || !data.foods || data.foods.length === 0) {
-      return res.send("❌ No nutrition data found.");
+      return res.send("No nutrition data found.");
     }
 
     const food = data.foods[0];
@@ -70,7 +66,7 @@ app.post('/log', async (req, res) => {
     await mealsCollection.insertOne(meal);
 
     res.send(`
-      <h2>✅ Meal Logged</h2>
+      <h2>Meal Logged</h2>
       <p><strong>${meal.name}</strong></p>
       <ul>
         <li>Calories: ${meal.calories}</li>
@@ -81,7 +77,7 @@ app.post('/log', async (req, res) => {
       <a href="/log">Log another meal</a> | <a href="/">Home</a>
     `);
   } catch (err) {
-    console.error("❌ Error in POST /log:", err);
+    console.error("Error in POST /log:", err);
     res.status(500).send("Something went wrong.");
   }
 });
@@ -91,7 +87,7 @@ app.get('/meals', async (req, res) => {
     const meals = await mealsCollection.find().sort({ date: -1 }).toArray();
     res.render('viewMeals', { meals });
   } catch (err) {
-    console.error("❌ Error fetching meals:", err);
+    console.error("Error fetching meals:", err);
     res.status(500).send("Error retrieving meals.");
   }
 });
@@ -105,7 +101,7 @@ app.post('/clear', async (req, res) => {
   }
 });
 
-// Local-only readline shutdown (skipped on Render)
+
 if (process.env.NODE_ENV !== 'production') {
   const readline = require('readline');
 
@@ -122,7 +118,7 @@ if (process.env.NODE_ENV !== 'production') {
 
   rl.on('line', (input) => {
     if (input.trim().toLowerCase() === 'stop') {
-      console.log("🛑 Shutting down the server");
+      console.log("Shutting down the server");
       rl.close();
       client.close();
       process.exit(0);
@@ -130,7 +126,7 @@ if (process.env.NODE_ENV !== 'production') {
   });
 } else {
   app.listen(port, () => {
-    console.log(`🚀 Server running on PORT ${port} (production mode)`);
+    console.log(`Server running on PORT ${port}`);
   });
 }
 
