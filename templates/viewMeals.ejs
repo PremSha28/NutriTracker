@@ -7,7 +7,7 @@
 <body>
   <h1>Meal History</h1>
   <% if (meals.length === 0) { %>
-    <p>No meals logged yet.</p>
+    <p>No meals logged.</p>
   <% } else { %>
     <ul>
       <% meals.forEach(meal => { %>
@@ -24,4 +24,7 @@
   <% } %>
   <a href="/">Home</a>
 </body>
+<form action="/clear" method="POST" onsubmit="return confirm('Are you sure you want to delete all logged meals?');">
+    <button type="submit">Clear All Meals</button>
+  </form>
 </html>

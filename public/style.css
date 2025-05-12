@@ -1,9 +1,8 @@
-/* Google Font import */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #f9f9f9;
+  background-color: rgb(241, 162, 162);
   color: #333;
   font-size: 18px;
   padding: 20px;

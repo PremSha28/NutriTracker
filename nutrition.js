@@ -17,7 +17,7 @@ async function getNutritionData(query) {
     const response = await axios(options);
     return response.data;
   } catch (err) {
-    console.error("❌ Nutritionix API error:", err.response?.data || err.message);
+    console.error("Nutritionix API error:", err.response?.data || err.message);
     return null;
   }
 }
